@@ -11,36 +11,41 @@ import java.util.List;
  */
 
 public class CourseSession {
+    private static int count = 0;
     private final String department;
     private final String number;
     private final List<Student> allStudents = new ArrayList<>();
     private final LocalDate startDate;
-    private final byte creditHours;
-    private final String lecturer;
+    private  int numberOfCredits;
     /**
      * Construct a course session starting on a specific date
      *
      * @param department the department of the course
      * @param number the course number
      * @param startDate the date which the course session starts
-     * @param creditHours the number of credits of the course
-     * @param lecturer the lecturer of the course
      */
-    public CourseSession(String department, String number, LocalDate startDate, byte creditHours, String lecturer) {
+    private CourseSession(String department, String number, LocalDate startDate) {
         this.department = department;
         this.number = number;
         this.startDate = startDate;
-        this.creditHours = creditHours;
-        this.lecturer = lecturer;
+    }
+
+    private static void incrementCount() { ++count; }
+    public static void resetCount() { count = 0; }
+    public static int getCount(){ return count;}
+
+    public static CourseSession create(String department, String number, LocalDate startDate) {
+        incrementCount();
+        return new CourseSession(department, number, startDate);
     }
 
     public String  getDepartment(){ return department; }
     public String  getNumber(){ return number; }
     public Student get(int index){ return allStudents.get(index); }
-    public byte    getCreditHours(){ return creditHours; }
-    public String  getLecturer(){ return lecturer; }
-    public String  getDescription(){ return getDepartment() + " " + getNumber() + " " + getCreditHours() + " " + getLecturer();}
-    public void    enroll(Student student){ allStudents.add(student); }
+    public void    enroll(Student student){
+        student.addCredits(numberOfCredits);
+        allStudents.add(student);
+    }
     public List<Student> getAllStudents(){ return allStudents; }
     public int     getNumberOfStudents(){ return allStudents.size(); }
     public LocalDate getStartDate() { return startDate; }
@@ -54,4 +59,5 @@ public class CourseSession {
        int numberOfDays = (sessionLengthInWeeks * daysInWeek) - lastDaysOfSessionWeekFromFridayToMonday;
        return startDate.plusDays(numberOfDays);
     }
+    public void setNumberOfCredits(int numberOfCredits) { this.numberOfCredits = numberOfCredits; }
 }

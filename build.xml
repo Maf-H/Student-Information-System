@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="StudentInformationSystem" default="build">
+    <property name="src.dir" value="src" />
+    <property name="build.dir" value="build/classes" />
+    <property name="lib.dir" value="lib" />
+    <property name="junit.jar" value="${lib.dir}/junit-4.13.1.jar" />
+
+    <path id="classpath">
+        <pathelement location="${junit.jar}" />
+        <pathelement location="${build.dir}" />
+    </path>
+
+    <target name="init">
+        <mkdir dir="${build.dir}" />
+    </target>
+
+    <target name="compile"
+            depends="init">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
+            <classpath refid="classpath"
+            />
+        </javac>
+    </target>
+
+    <target name="test" depends="compile">
+        <junit
+                fork="yes" printsummary="yes">
+            <classpath refid="classpath" />
+            <formatter type="plain" />
+            <batchtest>
+                <fileset dir="${src.dir}" includes="**/*Test.java" />
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}" />
+    </target>
+
+    <target name="build" depends="compile, test">
+    </target>
+    <target name="rebuildAll" depends="clean,build" description="rebuild all"/>
+</project>
