@@ -10,11 +10,11 @@ import java.util.List;
  * @author mesfinhaftu
  */
 
-public class CourseSession {
+public class CourseSession implements Comparable<CourseSession> {
     private static int count = 0;
     private final String department;
     private final String number;
-    private final List<Student> allStudents = new ArrayList<>();
+    private final ArrayList<Student> allStudents = new ArrayList<>();
     private final LocalDate startDate;
     private  int numberOfCredits;
     /**
@@ -24,7 +24,7 @@ public class CourseSession {
      * @param number the course number
      * @param startDate the date which the course session starts
      */
-    private CourseSession(String department, String number, LocalDate startDate) {
+    CourseSession(String department, String number, LocalDate startDate) {
         this.department = department;
         this.number = number;
         this.startDate = startDate;
@@ -60,4 +60,11 @@ public class CourseSession {
        return startDate.plusDays(numberOfDays);
     }
     public void setNumberOfCredits(int numberOfCredits) { this.numberOfCredits = numberOfCredits; }
+
+    @Override
+    public int compareTo(CourseSession that) {
+        int compare = this.getDepartment().compareTo(that.getDepartment());
+        if (compare != 0) { return compare; }
+        return this.getNumber().compareTo(that.getNumber());
+    }
 }

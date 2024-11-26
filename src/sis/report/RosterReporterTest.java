@@ -2,7 +2,7 @@ package sis.report;
 
 import junit.framework.*;
 import sis.studentinfo.*;
-import static sis.report.RosterReporter.NEW_LINE;
+import static sis.report.ReportConstant.NEW_LINE;
 
 public class RosterReporterTest extends TestCase {
 
