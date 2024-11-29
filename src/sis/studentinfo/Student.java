@@ -4,11 +4,21 @@ import java.util.*;
 
 public class Student{
 
-    enum Grade {A, B, C, D, F}
-    private GradingStrategy gradingStrategy = new RegularGradingStrategy();
+    public enum Grade {
+        A(4),
+        B(3),
+        C(2),
+        D(1),
+        F(0);
+        private final int points;
+        Grade(int points){ this.points = points; }
+
+        int getPoints(){ return points; }
+    }
+    private GradingStrategy gradingStrategy = new BasicGradingStrategy();
     private final List<Grade> grades = new ArrayList<>();
     public static final String IN_STATE = "CO";
-    static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
+    public static final int CREDITS_REQUIRED_FOR_FULL_TIME = 12;
     private final String name;
     private int credits;
     private String state = "";
@@ -17,14 +27,15 @@ public class Student{
         this.name = name;
         credits = 0;
     }
-    public String getName(){ return this.name; }
-    public void setState(String state) { this.state = state.toUpperCase(); }
+
+    public String  getName(){ return this.name; }
+    public void    setState(String state) { this.state = state.toUpperCase(); }
     public boolean isFullTime() { return credits >= CREDITS_REQUIRED_FOR_FULL_TIME; }
-    public int getCredits() { return credits; }
-    public void addCredits(int credits) { this.credits += credits; }
-    public void seGradingStrategy(GradingStrategy gradingStrategy) { this.gradingStrategy = gradingStrategy;}
+    public int     getCredits() { return credits; }
+    public void    addCredits(int credits) { this.credits += credits; }
+    public void    setGradingStrategy(GradingStrategy gradingStrategy) { this.gradingStrategy = gradingStrategy;}
     public boolean isInState() { return state.equals(Student.IN_STATE); }
-    public void addGrade(Grade grade) { grades.add(grade); }
+    public void    addGrade(Grade grade) { grades.add(grade); }
 
     public double getGpa() {
         if (grades.isEmpty())

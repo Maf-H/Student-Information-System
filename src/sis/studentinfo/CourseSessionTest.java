@@ -1,79 +1,26 @@
 package sis.studentinfo;
 
-import junit.framework.TestCase;
 import java.time.LocalDate;
 
-public class CourseSessionTest extends TestCase {
-
-    private CourseSession englishSession;
-    private CourseSession mathSession;
+public class CourseSessionTest extends SessionTest {
     private LocalDate startDate;
-    private static final int CREDITS = 3;
 
-    public void setUp(){
-        startDate = DateUtil.createDate(2024, 1, 8);
-        englishSession =  createCourseSession( "ENGL", "101", startDate);
-        mathSession = createCourseSession("MATH", "200", startDate);
-    }
-    public void testCreate() {
-        assertEquals("ENGL", englishSession.getDepartment());
-        assertEquals("101", englishSession.getNumber());
-        assertEquals(0, englishSession.getNumberOfStudents());
-        assertEquals(startDate, englishSession.getStartDate());
-     }
-    public void testCreateCourseSession(){
-        String expectedEnglishSession = "ENGL";
-        String englishCourseNumber = "101";
-        assertEquals(expectedEnglishSession, englishSession.getDepartment());
-        assertEquals(englishCourseNumber, englishSession.getNumber());
-        assertEquals(0, englishSession.getNumberOfStudents());
-
-        String expectedMathSession = "MATH";
-        String mathCourseNumber = "200";
-        assertEquals(expectedMathSession, mathSession.getDepartment());
-        assertEquals(mathCourseNumber, mathSession.getNumber());
-     }
-    public void testEnrolledStudents(){
-        Student firstStudent = new Student("Mesfin Haftu");
-        mathSession.enroll(firstStudent);
-        assertEquals(CREDITS, firstStudent.getCredits());
-        assertEquals(1, mathSession.getNumberOfStudents());
-        assertEquals(firstStudent, mathSession.get(0));
-
-        Student secondStudent = new Student("Jane Doe");
-        mathSession.enroll(secondStudent);
-        assertEquals(CREDITS, secondStudent.getCredits());
-        assertEquals(2, mathSession.getNumberOfStudents());
-        assertEquals(secondStudent, mathSession.get(1));
-    }
     public void testCourseDates(){
+        startDate = DateUtil.createDate(2024, 1, 8);
+        Session session = createSession("ENGL", "200", startDate);
         LocalDate sixteenWeekOut = DateUtil.createDate(2024, 4, 26);
-        assertEquals(sixteenWeekOut, englishSession.getEndDate());
+        assertEquals(sixteenWeekOut, session.getEndDate());
     }
     public void testCount(){
         CourseSession.resetCount();
-        createCourseSession("ENGL", "101", startDate);
+        createSession("", "", startDate);
         assertEquals(1, CourseSession.getCount());
-        createCourseSession("MATH", "200", startDate);
+        createSession("", "", startDate);
         assertEquals(2, CourseSession.getCount());
     }
-    private CourseSession createCourseSession(String department, String number, LocalDate startDate){
-        CourseSession session = CourseSession.create(department, number, startDate);
-        session.setNumberOfCredits(CourseSessionTest.CREDITS);
-        return session;
+    @Override
+    protected Session createSession(String department, String number, LocalDate startDate) {
+        return CourseSession.create(department, number, startDate);
     }
-    public void testComparable(){
-        final LocalDate date = DateUtil.createDate(2024, 1, 8);
-        CourseSession sessionA = CourseSession.create("CMSC", "101", date);
-        CourseSession sessionB = CourseSession.create("ENGL", "101", date);
-        assertTrue(sessionA.compareTo(sessionB) < 0);
-        assertTrue(sessionB.compareTo(sessionA) > 0);
 
-        CourseSession sessionC = CourseSession.create("CMSC", "101", date);
-        assertEquals(0, sessionA.compareTo(sessionC));
-
-        CourseSession sessionD = CourseSession.create("CMSC", "210", date);
-        assertTrue(sessionC.compareTo(sessionD) < 0);
-        assertTrue(sessionD.compareTo(sessionC) > 0);
-    }
 }

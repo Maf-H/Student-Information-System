@@ -7,6 +7,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         sis.report.AllTests.class,
         sis.studentinfo.AllTests.class,
+        sis.report.AllTests.class,
 })
 public class AllTests {
 }
