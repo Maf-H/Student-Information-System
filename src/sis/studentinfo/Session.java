@@ -2,9 +2,10 @@ package sis.studentinfo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public abstract class Session implements Comparable<Session>{
+public abstract class Session implements Comparable<Session>, Iterable<Student>{
 
     private final String department;
     private final String number;
@@ -43,4 +44,18 @@ public abstract class Session implements Comparable<Session>{
         return this.getNumber().compareTo(that.getNumber());
     }
     protected abstract int getSessionLength(); // template method
+
+    public double averageGpaForPartTimeStudents() {
+        double total = 0;
+        int count = 0;
+        for (Student student : students) {
+            if (student.isFullTime())
+                continue;
+            count++;
+            total += student.getGpa();
+        }
+        if (count == 0) return 0.0;
+        return total / count;
+    }
+    public Iterator<Student> iterator(){ return students.iterator(); }
 }

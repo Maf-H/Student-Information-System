@@ -11,7 +11,8 @@ import sis.report.*;
         RosterReporterTest.class,
         DateUtilTest.class,
         BasicGradingStrategyTest.class,
-        HonorsGradingStrategyTest.class
+        HonorsGradingStrategyTest.class,
+        PerformanceTest.class
 })
 public class AllTests {
     // No need for additional methods; annotations handle suite setup.

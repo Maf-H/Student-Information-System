@@ -9,10 +9,23 @@ public class StudentTest extends TestCase {
         final String expectedFirstStudentName = "Jane Doe";
         Student firstStudent = new Student("Jane Doe");
         assertEquals(expectedFirstStudentName, firstStudent.getName());
+        assertEquals("Jane", firstStudent.getFirstName());
+        assertEquals("Doe", firstStudent.getLastName());
+        assertEquals("", firstStudent.getMiddleName());
 
-        final String expectedSecondStudentName = "Mesfin Haftu";
-        Student SecondStudent = new Student("Mesfin Haftu");
-        assertEquals(expectedSecondStudentName, SecondStudent.getName());
+        final String expectedSecondStudentName = "Mesfin";
+        Student secondStudent = new Student("Mesfin");
+        assertEquals(expectedSecondStudentName, secondStudent.getName());
+        assertEquals("", secondStudent.getFirstName());
+        assertEquals("Mesfin", secondStudent.getLastName());
+        assertEquals("", secondStudent.getMiddleName());
+
+        final String expectedThirdStudentName = "Robert Cecil Martin";
+        Student thirdStudent = new Student("Robert Cecil Martin");
+        assertEquals(expectedThirdStudentName, thirdStudent.getName());
+        assertEquals("Robert", thirdStudent.getFirstName());
+        assertEquals("Cecil", thirdStudent.getMiddleName());
+        assertEquals("Martin", thirdStudent.getLastName());
     }
     public void testStudentStatus(){
         Student student = new Student("Menilik");
@@ -68,7 +81,14 @@ public class StudentTest extends TestCase {
         assertGpa(createHonorsStudent(Student.Grade.D), 2.0);
         assertGpa(createHonorsStudent(Student.Grade.F), 0.0);
     }
+    public void testCharges(){
+        Student student = new Student("a");
+        student.addCharge(500);
+        student.addCharge(200);
+        student.addCharge(399);
 
+        assertEquals(1099, student.totalCharges());
+    }
     private Student createHonorsStudent(Student.Grade grade) {
        Student student = createHonorsStudent();
        student.addGrade(grade);
@@ -79,9 +99,7 @@ public class StudentTest extends TestCase {
         student.setGradingStrategy(new HonorsGradingStrategy());
         return student;
     }
-
     private void assertGpa(Student student, double expectedGpa) {
         assertEquals(expectedGpa, student.getGpa(), GRADE_TOLERANCE);
     }
-
 }
